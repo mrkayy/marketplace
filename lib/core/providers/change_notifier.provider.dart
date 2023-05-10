@@ -8,7 +8,6 @@ class ScrollControllerNotifier extends ChangeNotifier {
   ScrollControllerNotifier() {
     scrollController1.addListener(() {
       print("Page Scoller at the top: ${scrollController1.position.pixels}");
-
       if (scrollController1.position.pixels == 0) {
         pauseProductScrolling = true;
         switchAppbarColor = false;
@@ -19,6 +18,7 @@ class ScrollControllerNotifier extends ChangeNotifier {
         pausePageScrolling = true;
         notifyListeners();
       }
+      notifyListeners();
       // pageScrollController(scrollController1.offset);
     });
 
@@ -31,6 +31,7 @@ class ScrollControllerNotifier extends ChangeNotifier {
         pauseProductScrolling = true;
         notifyListeners();
       }
+      notifyListeners();
     });
   }
 
