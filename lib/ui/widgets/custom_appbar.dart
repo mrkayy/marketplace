@@ -2,6 +2,7 @@ import 'package:code_test/core/constants/colors.dart';
 import 'package:code_test/core/constants/extensions.dart';
 import 'package:code_test/core/constants/icon_assets.dart';
 import 'package:code_test/core/constants/image_assets.dart';
+import 'package:code_test/core/providers/product_provider.dart';
 import 'package:code_test/ui/widgets/icon_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +18,7 @@ class CustomAppbar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 // initialize riverpod here
-
+    final pRef = ref.read(selectedProductProvider.notifier).state;
     return Container(
       margin: EdgeInsets.only(top: 55.0.sp),
       padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
@@ -62,7 +63,9 @@ class CustomAppbar extends ConsumerWidget implements PreferredSizeWidget {
               ? Row(
                   children: [
                     IconParserWidget(
-                      image: AppIconAssets.heartIcon,
+                      image: pRef!.isHearted!
+                          ? AppIconAssets.heartedIcon
+                          : AppIconAssets.heartIcon,
                     ),
                     16.0.w.spacingW,
                     IconParserWidget(

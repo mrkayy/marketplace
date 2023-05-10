@@ -10,7 +10,7 @@ class AppImageAssets {
   static String mens3 = "$_path/mens-3.jpeg";
   static String mens4 = "$_path/mens-4.jpeg";
 
-  static String tShirt1b = "$_path/tshirt-1-back.jpg.jpg";
+  static String tShirt1b = "$_path/tshirt-1-back.jpg";
   static String tShirt1f = "$_path/tshirt-1-front.jpg";
   static String tShirt2b = "$_path/tshirt-2-back.jpg";
   static String tShirtfb = "$_path/tshirt-2-front.jpg";

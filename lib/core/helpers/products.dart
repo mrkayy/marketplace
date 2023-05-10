@@ -2,15 +2,593 @@ import 'dart:math';
 
 import 'package:code_test/core/constants/enums.dart';
 import 'package:code_test/core/constants/image_assets.dart';
-import 'package:code_test/domain/entities/product.entity.dart';
+// import 'package:code_test/domain/entities/product.entity.dart';
 import 'package:code_test/domain/entities/product_attribute.entity.dart';
 import 'package:code_test/domain/entities/product_image.entity.dart';
+import 'package:code_test/domain/entities/prouct_reviews.dart';
 import 'package:code_test/domain/entities/rating.dart';
 import 'package:code_test/domain/entities/seller.entity.dart';
 import 'package:code_test/domain/entities/shipping_info.entity.dart';
+import 'package:code_test/domain/entities/user.entity.dart';
 
-List<Product> products = [
-  
+List<String> productNames = [
+  "Nike Air Max Running Shoes",
+  "Apple iPhone Pro",
+  "Adidas Ultraboost Sneakers",
+  "Samsung Galaxy Watch",
+  "Gucci GG Marmont Shoulder Bag",
+  "Sony PlayStation 5 Console",
+  "Louis Vuitton Neverfull Tote",
+  "Apple MacBook Pro",
+  "Calvin Klein Men's Boxer Briefs",
+  "Nike Dri-FIT Training Shorts",
+  "Chanel Coco Mademoiselle Perfume",
+  "Rolex Submariner Date Watch",
+  "Michael Kors Jet Set Crossbody Bag",
+  "Google Pixel 6 Smartphone",
+  "Prada Saffiano Leather Wallet",
+  "Vans Old Skool Sneakers",
+  "Hermes Birkin Handbag",
+  "Bose QuietComfort Wireless Headphones",
+  "Levi's 501 Original Fit Jeans",
+  "Fendi Peekaboo Tote Bag"
+];
+
+List<double> productPrices = [
+  129.99,
+  999.99,
+  169.99,
+  299.99,
+  189.99,
+  499.99,
+  139.99,
+  149.99,
+  29.99,
+  49.99,
+  129.99,
+  999.99,
+  249.99,
+  799.99,
+  279.99,
+  59.99,
+  199.99,
+  349.99,
+  79.99,
+  319.99,
+];
+
+List<ProductReview> productReviews = [
+  ProductReview(
+    review: "Great product! Fits perfectly and looks amazing.",
+    reviewCount: 15,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 75,
+      totalStars: 4.5,
+      metric: [
+        PointsToStar(points: 10, stars: Stars.one),
+        PointsToStar(points: 25, stars: Stars.two),
+        PointsToStar(points: 40, stars: Stars.three),
+        PointsToStar(points: 70, stars: Stars.four),
+        PointsToStar(points: 100, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review1-image1.jpg",
+      "https://example.com/review1-image2.jpg",
+    ],
+  ),
+  ProductReview(
+    review: "I'm very pleased with this purchase. Excellent quality!",
+    reviewCount: 8,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 40,
+      totalStars: 4.0,
+      metric: [
+        PointsToStar(points: 5, stars: Stars.one),
+        PointsToStar(points: 10, stars: Stars.two),
+        PointsToStar(points: 20, stars: Stars.three),
+        PointsToStar(points: 35, stars: Stars.four),
+        PointsToStar(points: 50, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review2-image1.jpg",
+      "https://example.com/review2-image1.jpg",
+      "https://example.com/review2-image1.jpg",
+    ],
+  ),
+  ProductReview(
+    review: "The product exceeded my expectations. Highly recommended!",
+    reviewCount: 12,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 60,
+      totalStars: 4.0,
+      metric: [
+        PointsToStar(points: 10, stars: Stars.one),
+        PointsToStar(points: 20, stars: Stars.two),
+        PointsToStar(points: 30, stars: Stars.three),
+        PointsToStar(points: 50, stars: Stars.four),
+        PointsToStar(points: 70, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review3-image1.jpg",
+      "https://example.com/review3-image2.jpg",
+      "https://example.com/review3-image3.jpg",
+    ],
+  ),
+  ProductReview(
+    review: "Fast shipping and excellent customer service. Very satisfied!",
+    reviewCount: 5,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 25,
+      totalStars: 3.5,
+      metric: [
+        PointsToStar(points: 5, stars: Stars.one),
+        PointsToStar(points: 10, stars: Stars.two),
+        PointsToStar(points: 15, stars: Stars.three),
+        PointsToStar(points: 25, stars: Stars.four),
+        PointsToStar(points: 40, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review4-image1.jpg",
+    ],
+  ),
+  ProductReview(
+    review:
+        "Good quality product at an affordable price. Happy with my purchase!",
+    reviewCount: 10,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 50,
+      totalStars: 4.5,
+      metric: [
+        PointsToStar(points: 10, stars: Stars.one),
+        PointsToStar(points: 20, stars: Stars.two),
+        PointsToStar(points: 30, stars: Stars.three),
+        PointsToStar(points: 50, stars: Stars.four),
+        PointsToStar(points: 70, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review5-image1.jpg",
+      "https://example.com/review5-image2.jpg",
+    ],
+  ),
+  ProductReview(
+    review:
+        "The product arrived on time and in perfect condition. Very pleased!",
+    reviewCount: 6,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 30,
+      totalStars: 3.0,
+      metric: [
+        PointsToStar(points: 5, stars: Stars.one),
+        PointsToStar(points: 10, stars: Stars.two),
+        PointsToStar(points: 15, stars: Stars.three),
+        PointsToStar(points: 25, stars: Stars.four),
+        PointsToStar(points: 35, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review6-image1.jpg",
+    ],
+  ),
+  ProductReview(
+    review: "Great product with fast shipping. Highly recommended!",
+    reviewCount: 8,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 40,
+      totalStars: 4.0,
+      metric: [
+        PointsToStar(points: 10, stars: Stars.one),
+        PointsToStar(points: 20, stars: Stars.two),
+        PointsToStar(points: 30, stars: Stars.three),
+        PointsToStar(points: 40, stars: Stars.four),
+        PointsToStar(points: 50, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review7-image1.jpg",
+      "https://example.com/review7-image2.jpg",
+    ],
+  ),
+  ProductReview(
+    review: "The product fits perfectly and looks great. Love it!",
+    reviewCount: 14,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 70,
+      totalStars: 4.5,
+      metric: [
+        PointsToStar(points: 15, stars: Stars.one),
+        PointsToStar(points: 25, stars: Stars.two),
+        PointsToStar(points: 35, stars: Stars.three),
+        PointsToStar(points: 50, stars: Stars.four),
+        PointsToStar(points: 70, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review8-image1.jpg",
+      "https://example.com/review8-image2.jpg",
+      "https://example.com/review8-image3.jpg",
+    ],
+  ),
+  ProductReview(
+    review:
+        "Excellent customer service and fast delivery. Happy with my purchase!",
+    reviewCount: 11,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 55,
+      totalStars: 4.5,
+      metric: [
+        PointsToStar(points: 10, stars: Stars.one),
+        PointsToStar(points: 20, stars: Stars.two),
+        PointsToStar(points: 35, stars: Stars.three),
+        PointsToStar(points: 50, stars: Stars.four),
+        PointsToStar(points: 70, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review9-image1.jpg",
+    ],
+  ),
+  ProductReview(
+    review:
+        "The product quality is amazing. I'm very satisfied with my purchase!",
+    reviewCount: 7,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 35,
+      totalStars: 3.5,
+      metric: [
+        PointsToStar(points: 5, stars: Stars.one),
+        PointsToStar(points: 10, stars: Stars.two),
+        PointsToStar(points: 20, stars: Stars.three),
+        PointsToStar(points: 30, stars: Stars.four),
+        PointsToStar(points: 40, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review10-image1.jpg",
+      "https://example.com/review10-image2.jpg",
+    ],
+  ),
+  ProductReview(
+    review: "Great product with fast shipping. Highly recommended!",
+    reviewCount: 8,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 40,
+      totalStars: 4.0,
+      metric: [
+        PointsToStar(points: 10, stars: Stars.one),
+        PointsToStar(points: 20, stars: Stars.two),
+        PointsToStar(points: 30, stars: Stars.three),
+        PointsToStar(points: 40, stars: Stars.four),
+        PointsToStar(points: 50, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review7-image1.jpg",
+      "https://example.com/review7-image2.jpg",
+    ],
+  ),
+  ProductReview(
+    review: "The product fits perfectly and looks great. Love it!",
+    reviewCount: 14,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 70,
+      totalStars: 4.5,
+      metric: [
+        PointsToStar(points: 15, stars: Stars.one),
+        PointsToStar(points: 25, stars: Stars.two),
+        PointsToStar(points: 35, stars: Stars.three),
+        PointsToStar(points: 50, stars: Stars.four),
+        PointsToStar(points: 70, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review8-image1.jpg",
+      "https://example.com/review8-image2.jpg",
+      "https://example.com/review8-image3.jpg",
+    ],
+  ),
+  ProductReview(
+    review:
+        "Excellent customer service and fast delivery. Happy with my purchase!",
+    reviewCount: 11,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 55,
+      totalStars: 4.5,
+      metric: [
+        PointsToStar(points: 10, stars: Stars.one),
+        PointsToStar(points: 20, stars: Stars.two),
+        PointsToStar(points: 35, stars: Stars.three),
+        PointsToStar(points: 50, stars: Stars.four),
+        PointsToStar(points: 70, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review9-image1.jpg",
+    ],
+  ),
+  ProductReview(
+    review:
+        "The product quality is amazing. I'm very satisfied with my purchase!",
+    reviewCount: 7,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 35,
+      totalStars: 3.5,
+      metric: [
+        PointsToStar(points: 5, stars: Stars.one),
+        PointsToStar(points: 10, stars: Stars.two),
+        PointsToStar(points: 20, stars: Stars.three),
+        PointsToStar(points: 30, stars: Stars.four),
+        PointsToStar(points: 40, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review10-image1.jpg",
+      "https://example.com/review10-image2.jpg",
+    ],
+  ),
+  ProductReview(
+    review:
+        "The product arrived earlier than expected. Impressed with the quality!",
+    reviewCount: 9,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 45,
+      totalStars: 4.0,
+      metric: [
+        PointsToStar(points: 10, stars: Stars.one),
+        PointsToStar(points: 20, stars: Stars.two),
+        PointsToStar(points: 30, stars: Stars.three),
+        PointsToStar(points: 40, stars: Stars.four),
+        PointsToStar(points: 50, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review11-image1.jpg",
+    ],
+  ),
+  ProductReview(
+    review:
+        "The seller was very helpful and responsive. Happy with my purchase!",
+    reviewCount: 6,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 30,
+      totalStars: 3.5,
+      metric: [
+        PointsToStar(points: 5, stars: Stars.one),
+        PointsToStar(points: 10, stars: Stars.two),
+        PointsToStar(points: 15, stars: Stars.three),
+        PointsToStar(points: 25, stars: Stars.four),
+        PointsToStar(points: 35, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review12-image1.jpg",
+      "https://example.com/review12-image2.jpg",
+    ],
+  ),
+  ProductReview(
+    review: "The product exceeded my expectations. Great value for the price!",
+    reviewCount: 8,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 40,
+      totalStars: 4.0,
+      metric: [
+        PointsToStar(points: 10, stars: Stars.one),
+        PointsToStar(points: 20, stars: Stars.two),
+        PointsToStar(points: 30, stars: Stars.three),
+        PointsToStar(points: 40, stars: Stars.four),
+        PointsToStar(points: 50, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review13-image1.jpg",
+      "https://example.com/review13-image2.jpg",
+      "https://example.com/review13-image3.jpg",
+    ],
+  ),
+  ProductReview(
+    review: "Great product! Fits perfectly and looks amazing.",
+    reviewCount: 15,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 75,
+      totalStars: 4.5,
+      metric: [
+        PointsToStar(points: 10, stars: Stars.one),
+        PointsToStar(points: 25, stars: Stars.two),
+        PointsToStar(points: 40, stars: Stars.three),
+        PointsToStar(points: 70, stars: Stars.four),
+        PointsToStar(points: 100, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review1-image1.jpg",
+      "https://example.com/review1-image2.jpg",
+    ],
+  ),
+  ProductReview(
+    review: "The product exceeded my expectations. Highly recommended!",
+    reviewCount: 12,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 60,
+      totalStars: 4.0,
+      metric: [
+        PointsToStar(points: 10, stars: Stars.one),
+        PointsToStar(points: 20, stars: Stars.two),
+        PointsToStar(points: 30, stars: Stars.three),
+        PointsToStar(points: 50, stars: Stars.four),
+        PointsToStar(points: 70, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review3-image1.jpg",
+      "https://example.com/review3-image2.jpg",
+      "https://example.com/review3-image3.jpg",
+    ],
+  ),
+  ProductReview(
+    review: "Fast shipping and excellent customer service. Very satisfied!",
+    reviewCount: 5,
+    seller: getRandomResult<SellerStore>(sellerStores),
+    reviewBy: getRandomResult<User>(randomUsers),
+    rating: Ratings(
+      totalPoints: 25,
+      totalStars: 3.5,
+      metric: [
+        PointsToStar(points: 5, stars: Stars.one),
+        PointsToStar(points: 10, stars: Stars.two),
+        PointsToStar(points: 15, stars: Stars.three),
+        PointsToStar(points: 25, stars: Stars.four),
+        PointsToStar(points: 40, stars: Stars.five),
+      ],
+    ),
+    images: [
+      "https://example.com/review4-image1.jpg",
+    ],
+  ),
+];
+
+final List<User> randomUsers = [
+  User(
+    userid: 1,
+    profileName: "John Doe",
+    profileImage: "https://randomuser.me/api/portraits/men/1.jpg",
+  ),
+  User(
+    userid: 2,
+    profileName: "Jane Doe",
+    profileImage: "https://randomuser.me/api/portraits/women/1.jpg",
+  ),
+  User(
+    userid: 3,
+    profileName: "Michael Smith",
+    profileImage: "https://randomuser.me/api/portraits/men/2.jpg",
+  ),
+  User(
+    userid: 4,
+    profileName: "Sarah Jones",
+    profileImage: "https://randomuser.me/api/portraits/women/2.jpg",
+  ),
+  User(
+    userid: 5,
+    profileName: "David Brown",
+    profileImage: "https://randomuser.me/api/portraits/men/3.jpg",
+  ),
+  User(
+    userid: 6,
+    profileName: "Emily Green",
+    profileImage: "https://randomuser.me/api/portraits/women/3.jpg",
+  ),
+  User(
+    userid: 7,
+    profileName: "Peter White",
+    profileImage: "https://randomuser.me/api/portraits/men/4.jpg",
+  ),
+  User(
+    userid: 8,
+    profileName: "Alice Black",
+    profileImage: "https://randomuser.me/api/portraits/women/4.jpg",
+  ),
+  User(
+    userid: 9,
+    profileName: "William Gray",
+    profileImage: "https://randomuser.me/api/portraits/men/5.jpg",
+  ),
+  User(
+    userid: 10,
+    profileName: "Susan Orange",
+    profileImage: "https://randomuser.me/api/portraits/women/5.jpg",
+  ),
+  User(
+    userid: 11,
+    profileName: "Robert Green",
+    profileImage: "https://randomuser.me/api/portraits/men/6.jpg",
+  ),
+  User(
+    userid: 12,
+    profileName: "Mary Brown",
+    profileImage: "https://randomuser.me/api/portraits/women/6.jpg",
+  ),
+  User(
+    userid: 13,
+    profileName: "John Smith",
+    profileImage: "https://randomuser.me/api/portraits/men/7.jpg",
+  ),
+  User(
+    userid: 14,
+    profileName: "Jane Doe",
+    profileImage: "https://randomuser.me/api/portraits/women/7.jpg",
+  ),
+  User(
+    userid: 15,
+    profileName: "Michael Jones",
+    profileImage: "https://randomuser.me/api/portraits/men/8.jpg",
+  ),
+  User(
+    userid: 16,
+    profileName: "Sarah Brown",
+    profileImage: "https://randomuser.me/api/portraits/women/8.jpg",
+  ),
+  User(
+    userid: 17,
+    profileName: "David Green",
+    profileImage: "https://randomuser.me/api/portraits/men/9.jpg",
+  ),
+  User(
+    userid: 18,
+    profileName: "Emily White",
+    profileImage: "https://randomuser.me/api/portraits/women/9.jpg",
+  ),
+  User(
+    userid: 19,
+    profileName: "Peter Black",
+    profileImage: "https://randomuser.me/api/portraits/men/10.jpg",
+  ),
+  User(
+    userid: 20,
+    profileName: "Alice Gray",
+    profileImage: "https://randomuser.me/api/portraits/women/10.jpg",
+  ),
 ];
 
 final List<ProductAttribute> productsAttributes = [
@@ -950,7 +1528,31 @@ final List<ShippingInformation> shipping = [
       from: "Canada, Toronto"),
 ];
 
-T getRandomResult<T>(List<T> list) {
+List<bool> booleanList = [
+  true,
+  false,
+  true,
+  true,
+  false,
+  false,
+  true,
+  false,
+  true,
+  false,
+  true,
+  false,
+  true,
+  true,
+  false,
+  false,
+  true,
+  false,
+  false,
+  true,
+];
+
+
+T getRandomResult<T>(List<T> list) {       
   if (list.length <= 20) {
     return list[Random().nextInt(list.length)];
   } else {

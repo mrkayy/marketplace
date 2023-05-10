@@ -11,6 +11,6 @@ class AppColors {
   static const iconColor = Color(0xff2f3042);
   static const scaffoldBackground = Color(0xfffdfefe);
   static const boxBackgroundAccent = Color(0xfffefefe);
-  static const boxBackground = Color(0xfff6f6f6);
+  static const boxBackground = Color(0xFFE9E8E8);
   static const transparent = Colors.transparent;
 }

@@ -9,5 +9,5 @@ class RouteNames {
 class RoutePaths {
   static const String HOME_PATH = "/";
   // static const String PROFILE_PATH = "/profile";
-  static const String PRODUCT_DETAILS_PATH = "details/:id";
+  static const String PRODUCT_DETAILS_PATH = "details";
 }

@@ -15,6 +15,7 @@ class AppIconAssets {
   static String homeSelectedIcon = "$_path/home_selected.png";
   static String homeIcon = "$_path/home.png";
   static String rating = "$_path/rating.png";
+  static String sellerShop = "$_path/shop.png";
   // static String x = "$_path/basket.png";
   // static String x = "$_path/basket.png";
   // static String x = "$_path/basket.png";

@@ -23,3 +23,26 @@ extension MoneyFormatter on double {
     return f;
   }
 }
+
+extension ConvertTitleCase on String {
+  String  get toTitleCase {
+  if (this.isEmpty) {
+    return this; // Return empty string if input is empty
+  }
+
+  List<String> words = this.split(' ');
+  List<String> capitalizedWords = [];
+
+  for (String word in words) {
+    if (word.isNotEmpty) {
+      String firstChar = word.substring(0, 1).toUpperCase();
+      String remainingChars = word.substring(1).toLowerCase();
+      String capitalizedWord = firstChar + remainingChars;
+      capitalizedWords.add(capitalizedWord);
+    }
+  }
+
+  return capitalizedWords.join(' ');
+}
+
+}

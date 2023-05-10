@@ -5,9 +5,11 @@ import 'package:code_test/core/constants/enums.dart';
 import 'package:code_test/core/constants/extensions.dart';
 import 'package:code_test/core/constants/icon_assets.dart';
 import 'package:code_test/core/constants/image_assets.dart';
-import 'package:code_test/core/helpers/products.dart';
+// import 'package:code_test/core/helpers/products.dart';
 // import 'package:code_test/core/helpers/products.dart';
 import 'package:code_test/core/navigation/routes.dart';
+import 'package:code_test/core/providers/product_provider.dart';
+// import 'package:code_test/domain/entities/product.entity.dart';
 import 'package:code_test/domain/entities/rating.dart';
 import 'package:code_test/domain/entities/store_category.entity.dart';
 import 'package:code_test/ui/widgets/custom_appbar.dart';
@@ -26,15 +28,17 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // ref.read(productStateProvider.notifier).getProducts();
+    // final List<Product> pl = ref.read(productStateProvider.notifier).state;
     //
     final screen = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppColors.white,
       extendBody: true,
       extendBodyBehindAppBar: true,
-      appBar: CustomAppbar(),
-      body: Container(
-        constraints: const BoxConstraints.expand(),
+      appBar: const CustomAppbar(),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             Container(
@@ -207,37 +211,45 @@ class HomeScreen extends ConsumerWidget {
                         ]),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
-                    height: 300.0.h,
-                    width: double.infinity,
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 20.sp,
-                        mainAxisSpacing: 20.sp,
-                        mainAxisExtent: 270.0.sp,
-                      ),
-                      padding: EdgeInsets.zero,
-                      itemCount: products.length,
-                      itemBuilder: ((context, index) {
-                        final p = products[index];
-                        return GestureDetector(
-                          onTap: () {
-                            context.goNamed(RouteNames.PRODUCT_DETAILS,
-                                pathParameters: {"id": p.id.toString()});
+                      padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
+                      height: 630.0.h,
+                      width: double.infinity,
+                      child: ref.watch(generateProductList).when(
+                          data: (pl) {
+                            return GridView.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 20.sp,
+                                mainAxisSpacing: 20.sp,
+                                mainAxisExtent: 270.0.sp,
+                              ),
+                              padding: EdgeInsets.zero,
+                              itemCount: pl.length,
+                              itemBuilder: ((context, index) {
+                                final p = pl[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    ref
+                                        .read(selectedProductProvider.notifier)
+                                        .selectProduct(p);
+
+                                    context.goNamed(RouteNames.PRODUCT_DETAILS);
+                                  },
+                                  child: ProductGridCard(
+                                    image: p.images.mainImage,
+                                    category: ProductSubCategory.shit,
+                                    price: p.productPrice,
+                                    isHearted: p.isHearted ?? false,
+                                    rating: Ratings(totalPoints: 4.1),
+                                    title: p.productName,
+                                  ),
+                                );
+                              }),
+                            );
                           },
-                          child: ProductGridCard(
-                            image: AppImageAssets.tShirtfb,
-                            category: ProductSubCategory.shit,
-                            price: p.productPrice,
-                            isHearted: false,
-                            rating: Ratings(totalPoints: 2.0),
-                            title: p.productName,
-                          ),
-                        );
-                      }),
-                    ),
-                  ),
+                          error: (err, stack) {},
+                          loading: () {})),
                 ],
               ),
             ),

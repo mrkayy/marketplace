@@ -57,7 +57,7 @@ class ProductGridCard extends StatelessWidget {
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      category.name,
+                      category.name.toTitleCase,
                       style: TextStyle(
                         color: AppColors.textPrimary2,
                         fontSize: 13.0.sp,
@@ -69,7 +69,7 @@ class ProductGridCard extends StatelessWidget {
                     SizedBox(
                       height: 36.0.h,
                       child: Text(
-                        title.toLowerCase(),
+                        title.toTitleCase,
                         maxLines: 2,
                         softWrap: true,
                         style: TextStyle(
@@ -140,7 +140,9 @@ class ProductGridCard extends StatelessWidget {
             child: IconParserWidget(
               iconHeight: 20.0.h,
               iconWidth: 20.0.w,
-              image: AppIconAssets.heartIcon,
+              image: isHearted
+                  ? AppIconAssets.heartedIcon
+                  : AppIconAssets.heartIcon,
             ),
           )
         ],

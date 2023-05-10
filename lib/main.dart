@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
             routerConfig: _router,
             title: 'Marketplace',
             theme: ThemeData(
+              fontFamily: "Jost",
               primarySwatch: Colors.teal,
             ),
           );
