@@ -1,11 +1,15 @@
 import 'package:code_test/core/constants/enums.dart';
 
 class Ratings {
-  late double totalPoints;
-  late double stars;
+  final double? totalPoints;
+  final double? totalStars;
+  final List<PointsToStar>? metric;
+
+  Ratings({this.totalPoints, this.totalStars, this.metric});
 }
 
-class PointToStart {
-  late int points;
-  late Stars stars;
+class PointsToStar {
+  final int? points;
+  final Stars? stars;
+  PointsToStar({this.points, this.stars});
 }
