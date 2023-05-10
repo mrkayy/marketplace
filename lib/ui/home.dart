@@ -8,6 +8,7 @@ import 'package:code_test/core/constants/image_assets.dart';
 // import 'package:code_test/core/helpers/products.dart';
 // import 'package:code_test/core/helpers/products.dart';
 import 'package:code_test/core/navigation/routes.dart';
+import 'package:code_test/core/providers/change_notifier.provider.dart';
 import 'package:code_test/core/providers/product_provider.dart';
 // import 'package:code_test/domain/entities/product.entity.dart';
 import 'package:code_test/domain/entities/rating.dart';
@@ -19,17 +20,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
-  navigateToDetialsPage(BuildContext context) {
-    // navigate to product details screen with product id
-    context.goNamed(RouteNames.PRODUCT_DETAILS, pathParameters: {"id": "1024"});
+
+  @override
+  HomeScreenState createState() => HomeScreenState();
+}
+
+class HomeScreenState extends ConsumerState<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(scrollControllerProvider.notifier).autoScrollPage();
+    // ref.read(counterProvider);
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // ref.read(productStateProvider.notifier).getProducts();
-    // final List<Product> pl = ref.read(productStateProvider.notifier).state;
+  Widget build(BuildContext context) {
+    final pRef = ref.read(scrollControllerProvider.notifier);
+    final pref = ref.watch(scrollControllerProvider);
     //
     final screen = MediaQuery.of(context).size;
     return Scaffold(
@@ -38,7 +48,11 @@ class HomeScreen extends ConsumerWidget {
       extendBodyBehindAppBar: true,
       appBar: const CustomAppbar(),
       body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+        controller: pRef.scrollController1,
+        // physics: const BouncingScrollPhysics(),
+        physics: pref.pausePageScrolling == true
+            ? const NeverScrollableScrollPhysics()
+            : const BouncingScrollPhysics(),
         child: Column(
           children: [
             Container(
@@ -48,16 +62,52 @@ class HomeScreen extends ConsumerWidget {
                 alignment: Alignment.bottomLeft,
                 children: [
                   // Background image
-                  Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      // color: Colors.black12.withOpacity(0.4),
-                      image: DecorationImage(
-                          image: AssetImage(AppImageAssets.bg2),
-                          fit: BoxFit.fitWidth,
-                          scale: 0.6.sp,
-                          opacity: 0.52),
+                  PageView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    padEnds: true,
+                    controller: pRef.pgController,
+                    itemCount: pRef.bgImages.length,
+                    onPageChanged: pRef.onPageChange,
+                    itemBuilder: (context, position) {
+                      return IndexedStack(
+                        index: position,
+                        children: pRef.bgImages
+                            .map((e) => Container(
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    // color: Colors.black12.withOpacity(0.4),
+                                    image: DecorationImage(
+                                        image: AssetImage(e),
+                                        fit: BoxFit.fitWidth,
+                                        opacity: 0.62),
+                                  ),
+                                ))
+                            .toList(),
+                      );
+                    },
+                  ),
+                  Positioned(
+                    top: 142.0.h,
+                    right: 16.0.w,
+                    child: Row(
+                      children: List.generate(
+                        pRef.bgImages.length,
+                        (index) => Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 2.0.sp),
+                          child: AnimatedContainer(
+                            curve: Curves.easeIn,
+                            duration: const Duration(milliseconds: 500),
+                            width: pref.position == index ? 10.0.w : 5.0.w,
+                            height: 5.0.h,
+                            decoration: BoxDecoration(
+                                color: pref.position == index
+                                    ? AppColors.iconColor
+                                    : AppColors.textPrimary3,
+                                borderRadius: BorderRadius.circular(5.0.sp)),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   Positioned(
@@ -73,7 +123,7 @@ class HomeScreen extends ConsumerWidget {
                             "#Fashion Day".toUpperCase(),
                             style: TextStyle(
                                 fontSize: 13.0.sp,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 color: AppColors.textPrimary),
                           ),
                           5.0.h.spacingH,
@@ -81,7 +131,7 @@ class HomeScreen extends ConsumerWidget {
                             "80%OFF".toUpperCase(),
                             style: TextStyle(
                                 fontSize: 38.0.sp,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                                 letterSpacing: 0,
                                 color: AppColors.textPrimary),
                           ),
@@ -90,7 +140,7 @@ class HomeScreen extends ConsumerWidget {
                             "Discover fashion that suits to your style",
                             style: TextStyle(
                                 fontSize: 12.sp,
-                                fontWeight: FontWeight.w300,
+                                fontWeight: FontWeight.w500,
                                 height: 1.5,
                                 color: AppColors.textPrimary),
                           ),
@@ -173,9 +223,29 @@ class HomeScreen extends ConsumerWidget {
                   12.0.h.spacingH,
                   // todo: refactor to scroll indicator
 
-                  Container(
-                    color: AppColors.primary,
-                    height: 5.0.h,
+                  Align(
+                    alignment: Alignment.center,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        pRef.bgImages.length,
+                        (index) => Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 2.0.sp),
+                          child: AnimatedContainer(
+                            curve: Curves.easeIn,
+                            duration: const Duration(milliseconds: 500),
+                            width: pref.position == index ? 10.0.w : 5.0.w,
+                            height: 5.0.h,
+                            decoration: BoxDecoration(
+                                color: pref.position == index
+                                    ? AppColors.iconColor
+                                    : AppColors.textPrimary3,
+                                borderRadius: BorderRadius.circular(5.0.sp)),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   12.0.h.spacingH,
                 ],
@@ -212,11 +282,16 @@ class HomeScreen extends ConsumerWidget {
                   ),
                   Container(
                       padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
-                      height: 630.0.h,
+                      height: 645.0.h,
                       width: double.infinity,
                       child: ref.watch(generateProductList).when(
                           data: (pl) {
                             return GridView.builder(
+                              controller: pref.scrollController2,
+                              // physics: const BouncingScrollPhysics(),
+                              physics: pref.pauseProductScrolling == true
+                                  ? const NeverScrollableScrollPhysics()
+                                  : const BouncingScrollPhysics(),
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,

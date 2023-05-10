@@ -2,6 +2,7 @@ import 'package:code_test/core/constants/colors.dart';
 import 'package:code_test/core/constants/extensions.dart';
 import 'package:code_test/core/constants/icon_assets.dart';
 import 'package:code_test/core/constants/image_assets.dart';
+import 'package:code_test/core/providers/change_notifier.provider.dart';
 import 'package:code_test/core/providers/product_provider.dart';
 import 'package:code_test/ui/widgets/icon_parser.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +20,19 @@ class CustomAppbar extends ConsumerWidget implements PreferredSizeWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 // initialize riverpod here
     final pRef = ref.read(selectedProductProvider.notifier).state;
-    return Container(
-      margin: EdgeInsets.only(top: 55.0.sp),
-      padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
+    final scrollNotifier = ref.watch(scrollControllerProvider);
+    return AnimatedContainer(
+      curve: Curves.easeIn,
+      duration: const Duration(microseconds: 1800),
+      padding: EdgeInsets.only(bottom: 20.0.sp, left: 16.0.sp, right: 16.0.sp),
+      height: 155.0.h,
+      color: scrollNotifier.switchAppbarColor == true
+          ? AppColors.white
+          : AppColors.transparent,
+      // padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           // 16.0.w.spacingW,
           showOptions!
