@@ -21,8 +21,8 @@ class ProductDetailsPage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: const CustomAppbar.withOptions(),
-      body: Container(
-        constraints: const BoxConstraints.expand(),
+      body: Padding(
+        // constraints: const BoxConstraints.expand(),
         padding: EdgeInsets.only(left: 16.0.sp, right: 16.0.sp, top: 10.0.sp),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -204,8 +204,9 @@ class ProductDetailsPage extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        Expanded(
+                        Flexible(
                           child: Container(
+                          
                             padding: EdgeInsets.all(10.0.sp),
                             decoration: BoxDecoration(
                                 border: Border(
@@ -937,75 +938,73 @@ class ProductDetailsPage extends ConsumerWidget {
         ),
       ),
       persistentFooterButtons: [
-        Expanded(
-          child: Container(
-            padding:
-                EdgeInsets.symmetric(horizontal: 16.0.sp, vertical: 20.0.sp),
-            height: 100.h,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Total Price",
-                      style: TextStyle(
-                        color: AppColors.textPrimary3,
-                        fontSize: 16.0.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+        Container(
+          padding:
+              EdgeInsets.symmetric(horizontal: 16.0.sp, vertical: 20.0.sp),
+          height: 100.h,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Total Price",
+                    style: TextStyle(
+                      color: AppColors.textPrimary3,
+                      fontSize: 16.0.sp,
+                      fontWeight: FontWeight.w500,
                     ),
-                    // 8.0.h.spacingH,
-                    Text(
-                      product.productPrice.formatMoney,
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontSize: 28.0.sp,
-                        fontWeight: FontWeight.w600,
+                  ),
+                  // 8.0.h.spacingH,
+                  Text(
+                    product.productPrice.formatMoney,
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 28.0.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 60.h,
+                width: 200.w,
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(5.0.sp),
+                              bottomLeft: Radius.circular(5.0.sp))),
+                      height: 60.h,
+                      width: 80.w,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: AppColors.iconColor,
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(5.0.sp),
+                              bottomRight: Radius.circular(5.0.sp))),
+                      height: 60.h,
+                      width: (200 - 80).w,
+                      child: Text(
+                        "Buy Now",
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 16.0.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 60.h,
-                  width: 200.w,
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(5.0.sp),
-                                bottomLeft: Radius.circular(5.0.sp))),
-                        height: 60.h,
-                        width: 80.w,
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: AppColors.iconColor,
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(5.0.sp),
-                                bottomRight: Radius.circular(5.0.sp))),
-                        height: 60.h,
-                        width: (200 - 80).w,
-                        child: Text(
-                          "Buy Now",
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 16.0.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         )
       ],
