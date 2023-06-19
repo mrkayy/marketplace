@@ -64,9 +64,9 @@ class ScrollControllerNotifier extends ChangeNotifier {
   }
 
   void autoScrollPage() {
-    debugPrint('======================[PRINTING]: Starting timer');
+    debugPrint('=============[PRINTING]: Starting timer');
     Timer.periodic(const Duration(seconds: 3), (timer) => nextPageOnClick());
-    notifyListeners();
+    // notifyListeners();
   }
 
   void onPageChange(int pos) {
